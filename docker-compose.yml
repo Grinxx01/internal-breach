@@ -6,12 +6,12 @@ services:
     container_name: internal-db
     restart: always
     environment:
-      # Kita hapus MYSQL_DATABASE di sini agar tidak bentrok dengan db.sql
       MYSQL_ROOT_PASSWORD: root_password
     volumes:
       - .:/docker-entrypoint-initdb.d 
 
   web-server:
+    # Kita gunakan image yang mendukung instalasi ekstensi saat dijalankan
     image: php:7.4-apache
     container_name: internal-web
     restart: always
@@ -21,3 +21,10 @@ services:
       - "8081:80"
     volumes:
       - .:/var/www/html
+    # Perintah sakti untuk mengaktifkan mysqli di dalam container
+    entrypoint: 
+      - sh
+      - -c
+      - |
+        docker-php-ext-install mysqli
+        apache2-foreground
