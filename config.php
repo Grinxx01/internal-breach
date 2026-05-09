@@ -1,7 +1,7 @@
 <?php
-$host = "localhost";
+$host = "db-server";
 $user = "root";
-$pass = "";
+$pass = "root_password";
 $db   = "ctf_challenge";
 
 $conn = mysqli_connect($host, $user, $pass, $db);

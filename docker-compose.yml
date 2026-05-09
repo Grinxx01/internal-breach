@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  db-server:
+    image: mariadb:10.5
+    container_name: internal-db
+    restart: always
+    environment:
+      # Kita hapus MYSQL_DATABASE di sini agar tidak bentrok dengan db.sql
+      MYSQL_ROOT_PASSWORD: root_password
+    volumes:
+      - .:/docker-entrypoint-initdb.d 
+
+  web-server:
+    image: php:7.4-apache
+    container_name: internal-web
+    restart: always
+    depends_on:
+      - db-server
+    ports:
+      - "8081:80"
+    volumes:
+      - .:/var/www/html
